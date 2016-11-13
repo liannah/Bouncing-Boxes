@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        body {
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+    </style>
+    <title> Bouncing balls</title>
+</head>
+<body background="http://65.media.tumblr.com/ca599e358fad9e45f364a1beb44d1ad5/tumblr_mqoiogDlXg1sb6a5qo1_500.gif">
+    <canvas id="canvas" width="1500" height="800"></canvas>
+   
+
+
+    <script>
+        function get_random_color() {
+            let letters = 'ABCDE'.split('');
+            let color = '#';
+            for (let i = 0; i < 3; i++) {
+                color += letters[Math.floor(Math.random() * letters.length)];
+            }
+            return color;
+        }
+
+let canvas = document.getElementById("canvas");
+
+let context = canvas.getContext("2d");
+
+
+
+
+const NUM_POINTS = 10; // play with this after you finished implementing draw, it's fun :-)
+
+
+
+// create points
+
+const points = [];
+for(let i = 0; i < NUM_POINTS; i++) {
+
+  points.push({
+
+    x: Math.random() * canvas.width,
+
+    y: Math.random() * canvas.height,
+
+    width: Math.random() * 10,
+
+    height: Math.random() * 10,
+    xDelta: 1, // the change that you will add to x, you can flip it when you get to the edge
+
+    yDelta: 1, // the change that you will add to y, you can flip it when you get to the edge
+
+   
+    color: get_random_color(),
+
+  });
+
+}
+
+const draw = function () {
+    
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.beginPath();
+    context.moveTo(Math.random, Math.random);
+    
+   
+    points.forEach(function (point) {
+
+        context.fillStyle = point.color;
+        context.arc(point.x, point.y, 50, 0, Math.PI * 2, true);
+        context.closePath();
+        context.fill();
+        
+
+        if (point.y >canvas.height || point.y <0) {
+            point.yDelta *= -1;
+            point.color = get_random_color();
+         
+        }
+
+        if (point.x > canvas.width || point.x < 0) {
+            point.xDelta *= -1;
+            point.color = get_random_color();
+            
+            
+        }
+        point.x += point.xDelta;
+        point.y += point.yDelta;
+       
+    });
+};
+
+let animate = function() {
+
+    draw();
+
+    window.setTimeout(animate, 0.5);
+
+};
+
+animate();
+
+
+
+    </script>
+</body>
+</html>
